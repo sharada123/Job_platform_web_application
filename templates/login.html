@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block 'main' %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            
+            <h2 class="text-center fw-bold mt-5">Login</h2>
+    
+            <!-- Two buttons for different user types
+            <div id="btn-section" class="mt-5 d-flex justify-content-center">
+                <form action="#" method="post"> 
+                    {% csrf_token %}
+                    <button type="submit" name="role" value="job_seeker"  class="btn btn-primary mt-3 me-3 btn-hover">Login as Job Seeker</button></form>
+               <form action="/job-provider-dashboard/{{user.email}}" method="post">
+                {% csrf_token %}
+                <button type="submit" name="role" value="job_provider"  class="btn btn-primary mt-3 btn-hover">Login as Job Provider</button></form>
+                
+            </div> -->
+            <p>{{message}}</p>
+           <form action="/send-otp/" method="post">
+                {% csrf_token %}
+                {{ login_form.as_p}}
+                <button type="submit" class="btn btn-primary mt-3">Send OTP</button>
+           </form>
+
+
+        </div>
+    </div>
+</div>
+{% endblock 'main' %}

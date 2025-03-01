@@ -1,0 +1,24 @@
+.btn-hover:hover{
+    background-color: red;
+    border: red;
+}
+ 
+  * {
+    box-sizing: border-box;
+  }
+ 
+  .profile,.logoimage{
+    border-radius: 50%;
+}
+.text-align{
+  text-align: justify;
+}
+  /* .hidden {
+    display: none;
+}
+.otp-section,.btn-section{
+    display: none;
+}
+.show {
+    display: block;
+} */

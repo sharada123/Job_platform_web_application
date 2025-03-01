@@ -1,0 +1,23 @@
+{% extends 'base.html' %} {% load static %} {% block 'main' %}
+<div class="container">
+  <div class="row">
+    <div class="col-md-6">
+      <form action="/update_profile/" enctype="multipart/form-data" method="post">
+        <!-- Display the current profile image if available -->
+         {% csrf_token %}
+        {% if user.profile.profile_image %}
+        <img
+          src="{{ user.profile.profile_image.url }}"
+          alt="Profile Image"
+          width="150" class="mt-3"
+        />
+        {% else %}
+        <p>No profile image available</p>
+        {% endif %} {{user_form.as_p}} {{form.as_p}}
+        <button type="submit" class="btn btn-primary mt-3 mb-5">Update Profile</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock 'main' %}

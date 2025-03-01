@@ -1,0 +1,94 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+      integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <title>Job Platform</title>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">Job Platform<i class="fa-solid fa-plane-departure fa-bounce" style="color: #f5f7fa;"></i></a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div
+          class="collapse navbar-collapse d-flex justify-content-end"
+          id="navbarSupportedContent"
+        >
+        {% if user.is_authenticated %}
+        
+        <div class="dropdown me-5">
+          <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+            <img src="{{ user.profile.profile_image.url }}" alt="Profile Pic" width="40" class="profile"/>
+          </button>
+          <ul class="dropdown-menu me-5" aria-labelledby="dropdownMenuButton1">
+            <li class="dropdown-item" title="{{user.first_name|capfirst}}&nbsp;{{user.last_name|capfirst}}">{{user.username|capfirst}}</li>
+            <li> <a class="dropdown-item" href="{% url 'job_list' %}" title="View Jobs">View All Jobs</a></li>
+            <li> <a class="dropdown-item" title="Applied Jobs"  data-bs-toggle="modal" data-bs-target="#AppliedJobModal">Applied Jobs</a></li>
+            <li> <a class="dropdown-item" href="{% url 'logout' %}" title="Logout">Logout</a></li>
+          </ul>
+        </div>
+        {% else %}
+          <form method="post" action="/signup-page/">
+            {% csrf_token %}
+            <button class="btn btn-outline-light me-3" type="submit">
+              Sign Up
+            </button>
+          </form>
+          <form method="post" action="/login/">
+            {% csrf_token %}
+            <button class="btn btn-outline-light me-3" type="submit">Login</button>
+          </form>
+          {% endif %}
+        </div>
+      </div>
+    </nav>
+     <!--Applied Job Modal -->
+     <div
+     class="modal fade"
+     id="AppliedJobModal"
+     tabindex="-1"
+     aria-labelledby="AppliedJobModalLabel"
+     aria-hidden="true"
+   >
+     <div class="modal-dialog">
+       <div class="modal-content">
+         <div class="modal-header">
+           <h5 class="modal-title" id="exampleModalLabel"> 
+             Applied Jobs
+           </h5>
+           <button
+             type="button"
+             class="btn-close"
+             data-bs-dismiss="modal"
+             aria-label="Close"
+           ></button>
+         </div>
+         <div class="modal-body">
+           applied jobs
+         </div>
+        
+       </div>
+     </div>
+   </div>
+  </body>
+</html>

@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block 'main' %}
+
+{% if profile.resume %}
+<embed src="{{ user.profile.resume.url }}" type="application/pdf" width="100%" height="500px" />
+   
+{% else %}
+    <p>No resume uploaded.</p>
+{% endif %}
+
+{% endblock 'main' %}

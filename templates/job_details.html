@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{%load static %}
+
+{% block 'main' %}
+<div class="container">
+     <div class="row">
+        <div class="col-md-12 col-sm-4 mt-5">
+            <div class="card">
+                <div class="card-header">
+                  Posted Date: &nbsp;{{job.created_at}} 
+                </div>
+                <div class="card-body">
+                 
+                  <h3 class="card-title">{{job.title|title}}</h3>
+                  <div class="d-flex justify-content-arround mt-3 align-items-center"> 
+                    <img src="{{job.logo.url}}" class="img-thumbnail logoimage" alt="{{job.title}} {{job.company}} image" width="100" height="100"/>
+                    <h4 class="card-text lh-lg ms-2 ">{{job.company|title}}</h4>
+                  </div>
+                 
+                  <p class="card-text fw-bold mt-3">Job Description&nbsp;:</p> <p class="card-text lh-lg text-justify"> {{job.job_description}}</p>
+                  <p class="card-text"><span class="fw-bold">Skills:</span>&nbsp; {{job.skills}}</p>
+                  <div class="d-flex justify-content-start "> 
+                    <div><i class="fa-solid fa-briefcase ms-2" style="color: #022f7e;"></i>&nbsp;{{job.vacancy_total}}</div>
+                    <div><i class="fa-solid fa-location-dot ms-4" style="color: #022f7e;"></i>&nbsp;{{job.location|title}}</div>
+                  </div>
+                  <p class="card-text fw-bold">Qualification:</p>
+                  <p class="card-text">{{job.required_education}}</p>
+                  <p class="fw-bold">Location&nbsp;:&nbsp;{{job.location}}</p>
+                  <p>Salary&nbsp;:&nbsp;{{job.min_salary}} Lac &nbsp;-&nbsp;{{job.min_salary}} Lac</p>
+                  <p>Experience&nbsp;:&nbsp;{{job.employee_type}}</p>
+                  <p> Job Type&nbsp;:&nbsp;{{job.job_type}} </p>
+                  <p>Working Time&nbsp;:&nbsp;{{job.office_time_from}}&nbsp;-&nbsp;{{job.office_time_to}}</p>
+                  <h5 class="card-title fw-bold ">{{job.company|title}}</h5>
+                  <p class="fw-bold card-text lh-lg">About Company:</p>
+                  <p class="card-text lh-lg text-justify">{{job.about_company|capfirst}}</p>
+                  <a href="#" class="btn btn-primary">Apply Now</a>
+                </div>
+              </div>
+        </div>
+     </div>
+</div>
+
+  {% endblock 'main' %}
