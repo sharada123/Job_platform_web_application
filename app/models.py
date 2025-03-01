@@ -29,6 +29,7 @@ class Education(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     degree = models.CharField(max_length=255)
     institution = models.CharField(max_length=255)
+    percentage=models.FloatField(blank=True, null=True)
     passout_date = models.DateField(null=True, blank=True)
     def __str__(self):
         return f"{self.user.username}'s Education"
@@ -38,7 +39,7 @@ class Certification(models.Model):
     certification_name = models.CharField(max_length=255)
     institution = models.CharField(max_length=255)
     passout_date = models.DateField(null=True, blank=True)
-    certificate=models.FileField(null=True, blank=True)
+    certificate=models.ImageField(upload_to='certificates/',null=True, blank=True)
     def __str__(self):
         return f"{self.user.username}'s Certification"
 class OTP(models.Model):

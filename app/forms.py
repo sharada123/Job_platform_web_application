@@ -1,5 +1,5 @@
 from django import forms
-from .models import Job,CustomUser,Profile
+from .models import Job,CustomUser,Profile,Education,Certification
 class RegisterForm(forms.ModelForm):
     class Meta:
         model = CustomUser
@@ -71,5 +71,27 @@ class ProfileForm(forms.ModelForm):
         }
 
 #educationform
+class EducationForm(forms.ModelForm):
+    class Meta:
+        model = Education
+        fields = ['degree','institution','passout_date','percentage']
+        widgets = {
+            'degree': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter Degree'}),
+            'institution': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter Institution'}),
+            'percentage': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Enter Percentage'}),
+            'passout_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date','step':'1'}),  # ✅ Use 'date' input type
+        }
+
 #certificateform
+class CertificationForm(forms.ModelForm):
+    class Meta:
+        model = Certification
+        fields = ['certification_name','institution','passout_date','certificate']
+        widgets = {
+            'certification_name': forms.TextInput(attrs={'class': 'form-control m-2', 'placeholder': 'Enter course name'}),
+            'institution': forms.TextInput(attrs={'class': 'form-control m-2', 'placeholder': 'Enter Institution'}),
+            'certificate': forms.ClearableFileInput(attrs={'class': 'form-control m-2', 'placeholder': 'upload Certificate'}),
+            'passout_date': forms.DateInput(attrs={'class': 'form-control m-2', 'type': 'date','step':'1'}),  # ✅ Use 'date' input type
+        }
+
 #aboutform

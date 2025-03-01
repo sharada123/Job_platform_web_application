@@ -18,4 +18,6 @@ urlpatterns = [
     path('job-list/',views.job_list, name="job_list"),
     path('post_job/',views.create_job,name="post_job"),
     path('job_detail/<int:id>',views.job_detail, name="job_detail"),
+    path('add_education',views.add_education, name="add_education"),
+    path('add_certificate',views.add_certificate, name="add_certificate"),
 ]

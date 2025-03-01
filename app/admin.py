@@ -11,7 +11,7 @@ class CustomUserAdmin(UserAdmin):  # Inherit Django's default UserAdmin
 
 class EducationAdmin(admin.ModelAdmin):
     model = Education
-    list_display=('user','institution','degree','passout_date')
+    list_display=('user','institution','degree','percentage','passout_date')
 
 class CertificationAdmin(admin.ModelAdmin):
     model = Certification

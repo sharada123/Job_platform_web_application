@@ -2,7 +2,7 @@
 <div class="container">
   <div class="row mt-4">
     {% if user.is_authenticated %}
-    <div class="col-md-4 border d-flex flex-column align-items-center">
+    <div class="col-md-5 border d-flex flex-column align-items-center">
       {% if user.profile.profile_image %}
       <img
         src="{{user.profile.profile_image.url}}"
@@ -23,139 +23,277 @@
       />
       {% endif %}
       <h5 class="mt-2 fw-bold ms-4">
-        {{user.first_name|capfirst}}&nbsp;{{user.last_name|capfirst}} &nbsp;<a   data-bs-toggle="modal" data-bs-target="#ProfileModal"><i
-          class="fa-solid fa-pen "
-          style="color: #002b75"
-        ></i></a>
+        {{user.first_name|capfirst}}&nbsp;{{user.last_name|capfirst}} &nbsp;<a
+          data-bs-toggle="modal"
+          data-bs-target="#ProfileModal"
+          ><i class="fa-solid fa-pen" style="color: #002b75"></i
+        ></a>
       </h5>
       {% if not user.profile.resume %}
-      <a
+      <!-- <a
         style="text-decoration: none;"  data-bs-toggle="modal" data-bs-target="#ResumeModal">Upload Resume:&nbsp;<i class="  fa-solid fa-file " style="color: #125bd9;" title="Upload Resume"></i></a
-      >
-      {% else %}
-      <a
-        style="text-decoration: none;"  data-bs-toggle="modal" data-bs-target="#ResumeViewModal" class="fw-bold">View Resume:&nbsp;<i class="  fa-solid fa-file " style="color: #125bd9;" title="Upload Resume"></i></a
-      >
-      
-      {% endif %}
-      
-      <!-- basic info section -->
+      > -->
+      <!--  resume section -->
       <div class="card mt-3">
         <div class="card-header d-flex justify-content-between fw-bold">
-          Basic Info <i  data-bs-toggle="modal" data-bs-target="#ProfileModal"
-            class="fa-solid fa-pen "
+          Resume
+          <i
+            data-bs-toggle="modal"
+            data-bs-target="#ResumeModal"
+            class="fa-solid fa-pen"
+            style="color: #002b75"
+          ></i>
+        </div>
+      </div>
+      <!--resume section end -->
+      {% else %}
+
+      <!--  resume section -->
+      <div class="card mt-3">
+        <div class="card-header d-flex justify-content-between fw-bold">
+          Resume
+          <i
+            data-bs-toggle="modal"
+            data-bs-target="#ResumeViewModal"
+            class="fa-solid fa-pen"
             style="color: #002b75"
           ></i>
         </div>
         <div class="card-body">
-         
-          <p class="card-text">Email:&nbsp;{{user.email}}</p>
-          <p class="card-text"> Contact Info:&nbsp;{{user.mobile_number}}</p>
+          <a
+            style="text-decoration: none"
+            data-bs-toggle="modal"
+            data-bs-target="#ResumeViewModal"
+            class="fw-bold"
+            >View Resume:&nbsp;<i
+              class="fa-solid fa-file"
+              style="color: #125bd9"
+              title="Upload Resume"
+            ></i
+          ></a>
         </div>
-      </div> <!--basic info section end -->
+        <!--resume section end -->
+        {% endif %}
 
-      {% if not user.profile.skills %}
-      <a  style="text-decoration: none;"
-      data-bs-toggle="modal" data-bs-target="#skillModal">Add Skills<i
-      class="fa-solid fa-pen "
-      style="color: #002b75"
-    ></i></a
-      >
+        <!-- basic info section -->
+        <div class="card mt-3">
+          <div class="card-header d-flex justify-content-between fw-bold">
+            Basic Info
+            <i
+              data-bs-toggle="modal"
+              data-bs-target="#ProfileModal"
+              class="fa-solid fa-pen"
+              style="color: #002b75"
+            ></i>
+          </div>
+          <div class="card-body">
+            <p class="card-text">Email:&nbsp;{{user.email}}</p>
+            <p class="card-text">Contact Info:&nbsp;{{user.mobile_number}}</p>
+          </div>
+        </div>
+        <!--basic info section end -->
 
-      {% else %}
-      <!-- skill section start -->
-      <div class="card mt-2">
-        <div class="card-header d-flex justify-content-between fw-bold">
-          Skills &nbsp;<i
-          class="fa-solid fa-pen  btn"
-          style="color: #002b75"
-          data-bs-toggle="modal" data-bs-target="#skillModal" ></i>
-        </div>
-        <div class="card-body">
-          <p class="card-text">{{user.profile.skills|title}} </p>
-          
-        </div>
-      </div> <!--skill section end -->
-      
-      {% endif %}
-     
-      {% if not user.profile.about_me %}
-      <a 
-       style="text-decoration: none;" data-bs-toggle="modal" data-bs-target="#AboutModal">Add About Yourself:&nbsp;<i class="fa-solid fa-circle-user " style="color: #125bd9;" title="Add About Yourself"></i></a
-      >
-      {% else %}
-    
-      <!-- about section -->
-      <div class="card mt-2">
-        <div class="card-header  d-flex justify-content-between fw-bold">
-          About Information&nbsp;<i
-          class="fa-solid fa-pen  btn"
-          style="color: #002b75"
-          data-bs-toggle="modal" data-bs-target="#AboutModal" ></i>
-        </div>
-        <div class="card-body">
-          <p class="card-text">{{user.profile.about_me|capfirst}}</p>
-          
-        </div>
-      </div> <!--about section end -->
-      
-      {% endif %}
-      <!-- education section -->
-      <div class="card mt-3">
-        <div class="card-header  d-flex justify-content-between fw-bold">
-          Education&nbsp;<i
-          class="fa-solid fa-pen  btn"
-          style="color: #002b75"
-          data-bs-toggle="modal" data-bs-target="#EducationModal" ></i>
-        </div>
-        <div class="card-body">
-          <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-          
-        </div>
-      </div> <!--education section end -->
+        {% if not user.profile.skills %}
+        <a
+          style="text-decoration: none"
+          data-bs-toggle="modal"
+          data-bs-target="#skillModal"
+          >Add Skills<i class="fa-solid fa-pen" style="color: #002b75"></i
+        ></a>
 
-      <!-- Certification section -->
-      <div class="card mt-3">
-        <div class="card-header  d-flex justify-content-between fw-bold">
-          Certifications&nbsp;<i
-          class="fa-solid fa-pen  btn"
-          style="color: #002b75"
-          data-bs-toggle="modal" data-bs-target="#CertificateModal" ></i>
+        {% else %}
+        <!-- skill section start -->
+        <div class="card mt-2">
+          <div class="card-header d-flex justify-content-between fw-bold">
+            Skills &nbsp;<i
+              class="fa-solid fa-pen btn"
+              style="color: #002b75"
+              data-bs-toggle="modal"
+              data-bs-target="#skillModal"
+            ></i>
+          </div>
+          <div class="card-body">
+            <p class="card-text">{{user.profile.skills|title}}</p>
+          </div>
         </div>
-        <div class="card-body">
-         
-          <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-        
+        <!--skill section end -->
+
+        {% endif %} {% if not user.profile.about_me %}
+        <a
+          style="text-decoration: none"
+          data-bs-toggle="modal"
+          data-bs-target="#AboutModal"
+          >Add About Yourself:&nbsp;<i
+            class="fa-solid fa-circle-user"
+            style="color: #125bd9"
+            title="Add About Yourself"
+          ></i
+        ></a>
+        {% else %}
+
+        <!-- about section -->
+        <div class="card mt-2">
+          <div class="card-header d-flex justify-content-between fw-bold">
+            About Information&nbsp;<i
+              class="fa-solid fa-pen btn"
+              style="color: #002b75"
+              data-bs-toggle="modal"
+              data-bs-target="#AboutModal"
+            ></i>
+          </div>
+          <div class="card-body">
+            <p class="card-text">{{user.profile.about_me|capfirst}}</p>
+          </div>
         </div>
-      </div> <!--certification section end -->
-      
+        <!--about section end -->
+
+        {% endif %}
+
+        <!-- education section -->
+        {% if education %}
+        <div class="card mt-3">
+          <div class="card-header d-flex justify-content-between fw-bold">
+            Qualification&nbsp;&nbsp;<i
+            class="fa-solid fa-pen btn"
+            style="color: #002b75"
+            data-bs-toggle="modal"
+            data-bs-target="#EducationModal"
+          ></i>
+            &nbsp;<i
+              class="fa-solid fa-plus"
+              style="color: #002b75"
+              data-bs-toggle="modal"
+              data-bs-target="#EducationModal"
+            ></i>
+            
+          </div>
+          {% for education in education %}
+          <div class="card-body">
+            <p class="card-text fw-bold">{{education.degree|title}}</p>
+            <div class="d-flex justify-content-between">
+              <p>{{education.institution|upper}}</p>
+              <p>{{education.percentage}}</p>
+              <p>{{education.passout_date}}</p>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        <!--education section end -->
+
+        {% else %}
+        <div class="card mt-3">
+          <div class="card-header d-flex justify-content-between fw-bold">
+            Qualification&nbsp;<i
+              class="fa-solid fa-plus"
+              style="color: #002b75"
+              data-bs-toggle="modal"
+              data-bs-target="#EducationModal"
+            ></i>
+          </div>
+          <div class="card-body">
+            <p class="card-text">No Qualification Added yet...</p>
+          </div>
+        </div>
+        <!--education section end -->
+        {% endif %}
+
+        <!-- Certification section -->
+         {% if certificate %}
+        <div class="card mt-3">
+          <div class="card-header d-flex justify-content-between fw-bold">
+            Certifications&nbsp;&nbsp;<i
+            class="fa-solid fa-pen btn"
+            style="color: #002b75"
+            data-bs-toggle="modal"
+            data-bs-target="#CertificateModal"
+          ></i>
+            &nbsp;<i
+              class="fa-solid fa-plus"
+              style="color: #002b75"
+              data-bs-toggle="modal"
+              data-bs-target="#CertificateModal"
+            ></i>
+            
+          </div>
+          {% for certificate in certificate %}
+          <div class="card-body">
+            <p class="card-text fw-bold">{{certificate.certification_name|title}}</p>
+            <div class="d-flex justify-content-between">
+              <p>{{certificate.institution|upper}}</p>
+              <p>{{certificate.passout_date}}</p>
+             
+            </div>
+            <a href="{{certificate.certificate.url}}" >View Certificate</a>
+            <!-- <img src="{{certificate.certificate.url}}" width="80" height="90" alt="" class="certificate"/> -->
+          </div>
+          {% endfor %}
+        </div>
+        {% else %}
+        <div class="card mt-3">
+          <div class="card-header d-flex justify-content-between fw-bold">
+            Certifications&nbsp;<i
+              class="fa-solid fa-plus btn"
+              style="color: #002b75"
+              data-bs-toggle="modal"
+              data-bs-target="#CertificateModal"
+            ></i>
+          </div>
+          <div class="card-body">
+            <p class="card-text">
+              No Certification Added yet...
+            </p>
+          </div>
+        </div>
+        {% endif %}
+        <!--certification section end -->
+      </div>
     </div>
-    <div class="col-md-8">
+    <div class="col-md-7">
       {% for job in jobs %}
       <div class="card">
         <div class="card-header">Posted Date: &nbsp;{{job.created_at}}</div>
         <div class="card-body">
-          
-          <div class="d-flex justify-content-arround mt-3"> 
+          <div class="d-flex justify-content-arround mt-3">
             <div>
               {% if job.logo %}
-              <img src="{{job.logo.url}}" class="img-thumbnail logoimage" alt="{{job.title}} {{job.company}} image" width="100" height="100"/>
+              <img
+                src="{{job.logo.url}}"
+                class="img-thumbnail logoimage"
+                alt="{{job.title}} {{job.company}} image"
+                width="100"
+                height="100"
+              />
               {% else %}
-              <img src="{% static 'assets/images/logo.jpg' %}" class="img-thumbnail logoimage" width="100" height="100"/>
+              <img
+                src="{% static 'assets/images/logo.jpg' %}"
+                class="img-thumbnail logoimage"
+                width="100"
+                height="100"
+              />
               {% endif %}
             </div>
-            <div><h4 class="card-title ms-3">{{job.title|title}}</h4>
-              <h5 class="card-text lh-lg ms-2 ">{{job.company|title}}</h5>
-              <div class="d-flex justify-content-between"> 
-                <div><i class="fa-solid fa-briefcase ms-2" style="color: #022f7e;"></i>&nbsp;{{job.vacancy_total}}</div>
-                <div><i class="fa-solid fa-location-dot" style="color: #022f7e;"></i>&nbsp;{{job.location|title}}</div>
+            <div>
+              <h4 class="card-title ms-3">{{job.title|title}}</h4>
+              <h5 class="card-text lh-lg ms-2">{{job.company|title}}</h5>
+              <div class="d-flex justify-content-between">
+                <div>
+                  <i
+                    class="fa-solid fa-briefcase ms-2"
+                    style="color: #022f7e"
+                  ></i
+                  >&nbsp;{{job.vacancy_total}}
+                </div>
+                <div>
+                  <i class="fa-solid fa-location-dot" style="color: #022f7e"></i
+                  >&nbsp;{{job.location|title}}
+                </div>
               </div>
-             
             </div>
-              
           </div>
-          
-          <a href="{% url 'job_detail' job.id %}" class="btn btn-primary mt-3"
+
+          <a
+            href="{% url 'job_detail' job.id %}"
+            class="btn btn-primary btn-sm mt-3"
             >View More Details</a
           >
         </div>
@@ -167,22 +305,42 @@
       <div class="card">
         <div class="card-header">Posted Date: &nbsp;{{job.created_at}}</div>
         <div class="card-body">
-          
-          <div class="d-flex justify-content-arround mt-3"> 
-            <div>{% if job.logo %}<img src="{{job.logo.url}}" class="img-thumbnail logoimage" alt="{{job.title}} {{job.company}} image" width="100" height="100"/>
+          <div class="d-flex justify-content-arround mt-3">
+            <div>
+              {% if job.logo %}<img
+                src="{{job.logo.url}}"
+                class="img-thumbnail logoimage"
+                alt="{{job.title}} {{job.company}} image"
+                width="100"
+                height="100"
+              />
               {% else %}
-              <img src="{% static 'assets/images/logo.jpg' %}" class="img-thumbnail logoimage"  width="100" height="100"/>
-              {% endif %}</div>
-            <div><h4 class="card-title ms-3">{{job.title|title}}</h4>
-              <h5 class="card-text lh-lg ms-2 ">{{job.company|title}}</h5>
-            
-              <div class="d-flex justify-content-between"> 
-                <div><i class="fa-solid fa-briefcase ms-2" style="color: #022f7e;"></i>&nbsp;{{job.vacancy_total}}</div>
-                <div><i class="fa-solid fa-location-dot" style="color: #022f7e;"></i>&nbsp;{{job.location|title}}</div>
-              </div>
-             </div>
+              <img
+                src="{% static 'assets/images/logo.jpg' %}"
+                class="img-thumbnail logoimage"
+                width="100"
+                height="100"
+              />
+              {% endif %}
+            </div>
+            <div>
+              <h4 class="card-title ms-3">{{job.title|title}}</h4>
+              <h5 class="card-text lh-lg ms-2">{{job.company|title}}</h5>
 
-            
+              <div class="d-flex justify-content-between">
+                <div>
+                  <i
+                    class="fa-solid fa-briefcase ms-2"
+                    style="color: #022f7e"
+                  ></i
+                  >&nbsp;{{job.vacancy_total}}
+                </div>
+                <div>
+                  <i class="fa-solid fa-location-dot" style="color: #022f7e"></i
+                  >&nbsp;{{job.location|title}}
+                </div>
+              </div>
+            </div>
           </div>
           <a href="{% url 'job_detail' job.id %}" class="btn btn-primary"
             >View More Details</a
@@ -194,312 +352,353 @@
   </div>
 </div>
 
-
-      <!-- skill  Modal -->
-      <div
-        class="modal fade"
-        id="skillModal"
-        tabindex="-1"
-        aria-labelledby="skillModalLabel"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel"> Add Skills</h5>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div class="modal-body">
-              <form method="POST" action="{% url 'add_skills' %}">
-                {% csrf_token %}
-                
-                <label>Select Your Skills:</label><br>
-                
-                <input type="checkbox" name="skills" value="Python"> Python<br>
-                <input type="checkbox" name="skills" value="Django"> Django<br>
-                <input type="checkbox" name="skills" value="JavaScript"> JavaScript<br>
-                <input type="checkbox" name="skills" value="React"> React<br>
-                <input type="checkbox" name="skills" value="SQL"> SQL<br>
-                <div class="d-flex justify-content-between mt-3"><button type="submit" class="btn btn-primary">
-                  Save changes
-                </button>
-                <button
-                type="button"
-                class="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
-                Close
-              </button>
-              
-            </div>
-              </form>
-            </div>
-            
-          
-          </div>
-        </div>
+<!-- skill  Modal -->
+<div
+  class="modal fade"
+  id="skillModal"
+  tabindex="-1"
+  aria-labelledby="skillModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add Skills</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
       </div>
+      <div class="modal-body">
+        <form method="POST" action="{% url 'add_skills' %}">
+          {% csrf_token %}
 
+          <label>Select Your Skills:</label><br />
 
-      <!-- Resume  Modal -->
-      <div
-        class="modal fade"
-        id="ResumeModal"
-        tabindex="-1"
-        aria-labelledby="resumeModalLabel"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel"> Upload Resume</h5>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div class="modal-body">
-              <form method="POST" action="{% url 'upload_resume' %}" enctype="multipart/form-data">
-                {% csrf_token %}
-                
-                <input type="file" name="resume" id="resume">
-                <div class="d-flex justify-content-between mt-3"><button type="submit" class="btn btn-primary">
-                  Save changes
-                </button>
-                <button
-                type="button"
-                class="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
-                Close
-              </button>
-              
-            </div>
-                
-              </form>
-            </div>
-            
-          
+          <input type="checkbox" name="skills" value="Python" /> Python<br />
+          <input type="checkbox" name="skills" value="Django" /> Django<br />
+          <input type="checkbox" name="skills" value="JavaScript" />
+          JavaScript<br />
+          <input type="checkbox" name="skills" value="React" /> React<br />
+          <input type="checkbox" name="skills" value="SQL" /> SQL<br />
+          <div class="d-flex justify-content-between mt-3">
+            <button type="submit" class="btn btn-primary">Save changes</button>
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
           </div>
-        </div>
-      </div>
-
-      <!-- Resume view  Modal -->
-      <div
-        class="modal fade"
-        id="ResumeViewModal"
-        tabindex="-1"
-        aria-labelledby="resumeViewModalLabel"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog">
-          <div class="modal-content">
-           
-            <div class="modal-body">
-              {% if user.profile.resume %}
-              <embed
-              src="{{ user.profile.resume.url }}"
-              type="application/pdf"
-              width="100%"
-              height="500px"
-            />
-            {% else %}
-            <p>No Resume uploaded</p>
-            {% endif %}
-            </div>
-            <div class="modal-footer">
-              <button type="submit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ResumeModal">
-               Update Resume
-              </button>
-              <button
-                type="button"
-                class="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
-                Close
-              </button>
-              
-            </div>
-          
-          </div>
-        </div>
-      </div>
-
-      <!-- About me  Modal -->
-      <div
-        class="modal fade"
-        id="AboutModal"
-        tabindex="-1"
-        aria-labelledby="AboutModalLabel"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel"> 
-                About Yourself
-              </h5>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div class="modal-body">
-              <form action="{% url 'add_about' %}" method="post">
-                {% csrf_token %}
-                <label for="about">Describe Yourself beyond the resume</label>
-                <textarea  class="form-control" value="{{user.profile.about_me}}" name="about" id="about" cols="30" rows="10" placeholder="About Yourself............"></textarea>
-                <div class="d-flex justify-content-between mt-3"><button type="submit" class="btn btn-primary">
-                  Save changes
-                </button>
-                <button
-                type="button"
-                class="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
-                Close
-              </button>
-              
-            </div>
-              </form>
-            </div>
-           
-          </div>
-        </div>
-      </div>
-
-       <!-- Profile Modal -->
-       <div
-       class="modal fade"
-       id="ProfileModal"
-       tabindex="-1"
-       aria-labelledby="ProfileModalLabel"
-       aria-hidden="true"
-     >
-       <div class="modal-dialog">
-         <div class="modal-content">
-           <div class="modal-header">
-             <h5 class="modal-title" id="exampleModalLabel"> 
-               Update Profile
-             </h5>
-             <button
-               type="button"
-               class="btn-close"
-               data-bs-dismiss="modal"
-               aria-label="Close"
-             ></button>
-           </div>
-           <div class="modal-body">
-             <form action="{% url 'update_profile' %}" method="post" enctype="multipart/form-data">
-               {% csrf_token %}
-               <div class="mb-3">
-                <label for="img" class="form-label">Change Profile Picture</label>
-                <input type="file" class="form-control" id="img"  name="img" aria-describedby="emailHelp">
-           
-              </div>
-               <div class="mb-3">
-                <label for="first_name" class="form-label">First Name </label>
-                <input type="text" class="form-control" id="first_name" name="first_name" value={{user.first_name}}>
-                
-              </div>
-              <div class="mb-3">
-                <label for="last_name" class="form-label">Last Name </label>
-                <input type="text" class="form-control" id="last_name" name="last_name" value={{user.last_name}}>
-                
-              </div>
-              <div class="mb-3">
-                <label for="email" class="form-label">Email address</label>
-                <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp" value={{user.email}}>
-               
-              </div>
-              <div class="mb-3">
-                <label for="mob" class="form-label">Mobile Number </label>
-                <input type="text" class="form-control" id="mob" name="mob" value={{user.mobile_number}}>
-               
-              </div>
-               <div class="d-flex justify-content-between mt-3"><button type="submit" class="btn btn-primary">
-                 Save changes
-               </button>
-               <button
-               type="button"
-               class="btn btn-secondary"
-               data-bs-dismiss="modal"
-             >
-               Close
-             </button>
-             
-           </div>
-             </form>
-           </div>
-          
-         </div>
-       </div>
-     </div>
-
-     <!-- Education Modal -->
-     <div
-     class="modal fade"
-     id="EducationModal"
-     tabindex="-1"
-     aria-labelledby="EducationModalLabel"
-     aria-hidden="true"
-   >
-     <div class="modal-dialog">
-       <div class="modal-content">
-         <div class="modal-header">
-           <h5 class="modal-title" id="exampleModalLabel"> 
-            Add Education
-           </h5>
-           <button
-             type="button"
-             class="btn-close"
-             data-bs-dismiss="modal"
-             aria-label="Close"
-           ></button>
-         </div>
-         <div class="modal-body">
-          Education
-         </div>
-        
-       </div>
-     </div>
-   </div>
-
-    <!-- Education Modal -->
-    <div
-    class="modal fade"
-    id="CertificateModal"
-    tabindex="-1"
-    aria-labelledby="CertificateModalLabel"
-    aria-hidden="true"
-  >
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel"> 
-           Add Certification
-          </h5>
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          ></button>
-        </div>
-        <div class="modal-body">
-         Certificate
-        </div>
-       
+        </form>
       </div>
     </div>
   </div>
+</div>
+
+<!-- Resume  Modal -->
+<div
+  class="modal fade"
+  id="ResumeModal"
+  tabindex="-1"
+  aria-labelledby="resumeModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Upload Resume</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form
+          method="POST"
+          action="{% url 'upload_resume' %}"
+          enctype="multipart/form-data"
+        >
+          {% csrf_token %}
+
+          <input type="file" name="resume" id="resume" />
+          <div class="d-flex justify-content-between mt-3">
+            <button type="submit" class="btn btn-primary">Save changes</button>
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Resume view  Modal -->
+<div
+  class="modal fade"
+  id="ResumeViewModal"
+  tabindex="-1"
+  aria-labelledby="resumeViewModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+        {% if user.profile.resume %}
+        <embed
+          src="{{ user.profile.resume.url }}"
+          type="application/pdf"
+          width="100%"
+          height="500px"
+        />
+        {% else %}
+        <p>No Resume uploaded</p>
+        {% endif %}
+      </div>
+      <div class="modal-footer">
+        <button
+          type="submit"
+          class="btn btn-primary"
+          data-bs-toggle="modal"
+          data-bs-target="#ResumeModal"
+        >
+          Update Resume
+        </button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- About me  Modal -->
+<div
+  class="modal fade"
+  id="AboutModal"
+  tabindex="-1"
+  aria-labelledby="AboutModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">About Yourself</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form action="{% url 'add_about' %}" method="post">
+          {% csrf_token %}
+          <label for="about">Describe Yourself beyond the resume</label>
+          <textarea
+            class="form-control"
+            value="{{user.profile.about_me}}"
+            name="about"
+            id="about"
+            cols="30"
+            rows="10"
+            placeholder="About Yourself............"
+          ></textarea>
+          <div class="d-flex justify-content-between mt-3">
+            <button type="submit" class="btn btn-primary">Save changes</button>
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Profile Modal -->
+<div
+  class="modal fade"
+  id="ProfileModal"
+  tabindex="-1"
+  aria-labelledby="ProfileModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Update Profile</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form
+          action="{% url 'update_profile' %}"
+          method="post"
+          enctype="multipart/form-data"
+        >
+          {% csrf_token %}
+          <div class="mb-3">
+            <label for="img" class="form-label">Change Profile Picture</label>
+            <input
+              type="file"
+              class="form-control"
+              id="img"
+              name="img"
+              aria-describedby="emailHelp"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="first_name" class="form-label">First Name </label>
+            <input
+              type="text"
+              class="form-control"
+              id="first_name"
+              name="first_name"
+              value="{{user.first_name}}"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="last_name" class="form-label">Last Name </label>
+            <input
+              type="text"
+              class="form-control"
+              id="last_name"
+              name="last_name"
+              value="{{user.last_name}}"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="email" class="form-label">Email address</label>
+            <input
+              type="email"
+              class="form-control"
+              id="email"
+              name="email"
+              aria-describedby="emailHelp"
+              value="{{user.email}}"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="mob" class="form-label">Mobile Number </label>
+            <input
+              type="text"
+              class="form-control"
+              id="mob"
+              name="mob"
+              value="{{user.mobile_number}}"
+            />
+          </div>
+          <div class="d-flex justify-content-between mt-3">
+            <button type="submit" class="btn btn-primary">Save changes</button>
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Education Modal -->
+<div
+  class="modal fade"
+  id="EducationModal"
+  tabindex="-1"
+  aria-labelledby="EducationModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add Qualification</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        Add Your Qualifications
+        <form method="post" action="{% url 'add_education' %}">
+          {% csrf_token %} {{education_form}}
+          <div class="d-flex justify-content-between mt-3">
+            <button type="submit" class="btn btn-primary">Save</button>
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- certificate Modal -->
+<div
+  class="modal fade"
+  id="CertificateModal"
+  tabindex="-1"
+  aria-labelledby="CertificateModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add Certifications</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">Add Your Certifications
+        <form method="post" action="{% url 'add_certificate' %}" enctype="multipart/form-data">
+          {% csrf_token %} {{certification_form}}
+          <div class="d-flex justify-content-between mt-3">
+            <button type="submit" class="btn btn-primary">Save</button>
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+          </div>
+        </form></div>
+    </div>
+  </div>
+</div>
+
+
+
 {% endblock 'main' %}

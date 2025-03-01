@@ -7,8 +7,8 @@ from django.core.mail import send_mail
 from .utils import send_otp_email, delete_old_otps
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from .models import CustomUser, OTP, Job, Profile
-from .forms import JobForm, RegisterForm, LoginForm, ProfileForm,UserForm
+from .models import CustomUser, OTP, Job, Profile,Education,Certification
+from .forms import JobForm, RegisterForm, LoginForm, ProfileForm,UserForm,EducationForm,CertificationForm
 
 def homepage(request):
     jform=JobForm()
@@ -52,8 +52,14 @@ def logout_user(request):
 
 
 def job_list(request):
+    education_form=EducationForm()
+    certification_form=CertificationForm()
+    education=Education.objects.filter(user=request.user)
+    certificate=Certification.objects.filter(user=request.user)
+    # print(education)
+    print(certificate)
     jobs = Job.objects.filter(is_active=True).order_by('-created_at')
-    return render(request, 'job_list.html', {'jobs': jobs})
+    return render(request, 'job_list.html', {'jobs': jobs,'certification_form':certification_form,'education_form':education_form,'education':education,'certificate':certificate})
 
 def job_detail(request, id):
     try:
@@ -93,7 +99,8 @@ def verify_otp(request):
     if request.method == "POST":
         email = request.session.get('email')
         user = CustomUser.objects.filter(email=email).first()
-        
+        education=Education.objects.filter(user=user)
+        certificate=Certification.objects.filter(user=user)
         if not user:
             return redirect('send_otp')
         
@@ -112,8 +119,10 @@ def verify_otp(request):
         # Check if OTP is correct
         if otp_record and otp_record.otp == otp_entered and otp_record.is_valid():
             login(request, user)
-            context = {'user': user, 'jobs': jobs, 'profile': profile, 'user_form': user_form, 'profile_form': profile_form}
-            return render(request, 'job_list.html', context)
+            print(education)
+            context = {'user': user, 'education':education,'certificate':certificate,'jobs': jobs, 'profile': profile}
+            # return render(request, 'job_list.html', context)
+            return redirect('job_list')
         else:
             return render(request, 'verify_otp.html', {'error': 'Invalid OTP'})
 
@@ -172,6 +181,31 @@ def add_about(request):
     else:
 
      return render(request,'job_list.html',{'profile':user_profile,'jobs':jobs})
+
+
+def add_education(request):
+    if  request.method == 'POST':
+        education_form =EducationForm(request.POST)
+        if education_form.is_valid():
+            education = education_form.save(commit=False)
+            education.user = request.user
+            education.save()
+            return redirect('job_list')
+        else:
+            return render(request, 'job_list.html', {'education_form': education_form})
+
+def add_certificate(request):
+    if  request.method == 'POST':
+        certificate_form =CertificationForm(request.POST,request.FILES)
+        if certificate_form.is_valid():
+            certificate = certificate_form.save(commit=False)
+            certificate.user = request.user
+            certificate.save()
+            return redirect('job_list')
+        else:
+            return render(request, 'job_list.html', {'certificate_form': certificate_form})
+    
+
 def update_profile(request):
     # Get the currently logged-in user
     user = CustomUser.objects.get(email=request.user.email)
