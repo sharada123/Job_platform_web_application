@@ -33,7 +33,7 @@ class JobForm(forms.ModelForm):
             'email_address': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Enter email address'}),
             'company': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter name of company'}),
             'about_company': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'About company'}),
-             'vacancy_total': forms.TextInput(attrs={'class': 'form-control', 'placeholder': '5'}),
+            'vacancy_total': forms.TextInput(attrs={'class': 'form-control', 'placeholder': '5'}),
             'logo':forms.ClearableFileInput(attrs={'class': 'form-control','placeholder': 'Logo'}),
             'job_description': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Job description'}),
             'skills': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter required skills'}),

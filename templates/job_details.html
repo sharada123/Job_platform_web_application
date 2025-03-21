@@ -23,17 +23,27 @@
                     <div><i class="fa-solid fa-briefcase ms-2" style="color: #022f7e;"></i>&nbsp;{{job.vacancy_total}}</div>
                     <div><i class="fa-solid fa-location-dot ms-4" style="color: #022f7e;"></i>&nbsp;{{job.location|title}}</div>
                   </div>
+                  <hr class="text-primary border-3">
                   <p class="card-text fw-bold">Qualification:</p>
                   <p class="card-text">{{job.required_education}}</p>
-                  <p class="fw-bold">Location&nbsp;:&nbsp;{{job.location}}</p>
+                  <p class="fw-bold">Location&nbsp;:&nbsp;{{job.location|capfirst}}</p>
                   <p>Salary&nbsp;:&nbsp;{{job.min_salary}} Lac &nbsp;-&nbsp;{{job.min_salary}} Lac</p>
                   <p>Experience&nbsp;:&nbsp;{{job.employee_type}}</p>
                   <p> Job Type&nbsp;:&nbsp;{{job.job_type}} </p>
                   <p>Working Time&nbsp;:&nbsp;{{job.office_time_from}}&nbsp;-&nbsp;{{job.office_time_to}}</p>
+                  <hr class="text-primary border-3">
                   <h5 class="card-title fw-bold ">{{job.company|title}}</h5>
                   <p class="fw-bold card-text lh-lg">About Company:</p>
                   <p class="card-text lh-lg text-justify">{{job.about_company|capfirst}}</p>
-                  <a href="#" class="btn btn-primary">Apply Now</a>
+                  <form action="{% url 'apply' job.id %}" method="post">
+                    {% csrf_token %}
+                    {% if application == True %}
+                    <button class="btn btn-success">Applied</button>
+                    {% else %}
+                    <button class="btn btn-primary">Apply Now</button>
+                    {% endif %}
+                  </form>
+                  
                 </div>
               </div>
         </div>

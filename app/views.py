@@ -7,9 +7,11 @@ from django.core.mail import send_mail
 from .utils import send_otp_email, delete_old_otps
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from .models import CustomUser, OTP, Job, Profile,Education,Certification
+from .models import CustomUser, OTP, Job, Profile,Education,Certification,Application
 from .forms import JobForm, RegisterForm, LoginForm, ProfileForm,UserForm,EducationForm,CertificationForm
-
+from django.core.mail import EmailMessage
+from django.conf import settings
+from django.contrib.auth.decorators import login_required
 def homepage(request):
     jform=JobForm()
     return render(request, 'home.html',{'job_form':jform})
@@ -50,23 +52,30 @@ def logout_user(request):
     logout(request)
     return redirect('/')
 
-
+@login_required
 def job_list(request):
     education_form=EducationForm()
     certification_form=CertificationForm()
-    education=Education.objects.filter(user=request.user)
-    certificate=Certification.objects.filter(user=request.user)
+    education=Education.objects.filter(user=request.user.id)
+    certificate=Certification.objects.filter(user=request.user.id)
     # print(education)
     print(certificate)
     jobs = Job.objects.filter(is_active=True).order_by('-created_at')
     return render(request, 'job_list.html', {'jobs': jobs,'certification_form':certification_form,'education_form':education_form,'education':education,'certificate':certificate})
 
+@login_required
 def job_detail(request, id):
     try:
         job = Job.objects.get(id=id)
+        application=Application.objects.filter(job=job.id,user=request.user)
+        
     except Job.DoesNotExist:
         return HttpResponse("Job not found", status=404)
-    return render(request, 'job_details.html', {'job': job})
+    if application:
+        return render(request, 'job_details.html', {'job': job,'application':True})
+    else:
+
+        return render(request, 'job_details.html', {'job': job,'application':False})
 
 # Store OTP in a dictionary (temporary)
 otp_storage = {}
@@ -143,7 +152,7 @@ def create_job(request):
        
 
 
-
+@login_required
 def add_skills(request):
     if request.method == "POST":
         print("Adding skills")  # Check if this prints in your console
@@ -157,6 +166,7 @@ def add_skills(request):
     
     return JsonResponse({'message': 'Invalid request'})
 
+@login_required
 def upload_resume(request):
     user_profile=request.user.profile
     jobs=Job.objects.filter(is_active=True).order_by('-created_at')
@@ -170,6 +180,7 @@ def upload_resume(request):
     else:
      return render(request,'job_list.html',{'profile':user_profile,'jobs':jobs})
 
+@login_required
 def add_about(request):
     user_profile=request.user.profile
     jobs=Job.objects.filter(is_active=True).order_by('-created_at')
@@ -182,7 +193,7 @@ def add_about(request):
 
      return render(request,'job_list.html',{'profile':user_profile,'jobs':jobs})
 
-
+@login_required
 def add_education(request):
     if  request.method == 'POST':
         education_form =EducationForm(request.POST)
@@ -193,7 +204,7 @@ def add_education(request):
             return redirect('job_list')
         else:
             return render(request, 'job_list.html', {'education_form': education_form})
-
+@login_required
 def add_certificate(request):
     if  request.method == 'POST':
         certificate_form =CertificationForm(request.POST,request.FILES)
@@ -205,7 +216,7 @@ def add_certificate(request):
         else:
             return render(request, 'job_list.html', {'certificate_form': certificate_form})
     
-
+@login_required
 def update_profile(request):
     # Get the currently logged-in user
     user = CustomUser.objects.get(email=request.user.email)
@@ -243,3 +254,48 @@ def update_profile(request):
 
     # Render the template to update the profile (for GET request)
     return render(request, 'job_list.html', {'user': user, 'profile': profile,'jobs':jobs})
+
+
+@login_required
+def apply(request, job_id):
+    job = Job.objects.get(id=job_id)
+    profile = Profile.objects.get(user=request.user.id)
+    resume = profile.resume
+    recipient_email = job.email_address
+    #one thing to insert record into application model for logged in user
+    #1) check already applied user
+    if Application.objects.filter(job=job, user=request.user).exists():
+        return redirect('job_detail', id=job.id)
+    else:
+        # Create application object
+        application = Application(job=job, user=request.user, resume=resume)
+        application.save()
+
+        # Create email message with attachment
+        email = EmailMessage(
+            subject=f"Job Application for role {job.title.upper()}",
+            body=f'''Respected Sir/Ma'am,
+            
+                    My name is {request.user.first_name} {request.user.last_name}.  
+                    I am interested in the position of {job.title.upper()}.  
+                    Please find my attached resume below.  
+
+                    Thank you!  
+                    {request.user.first_name} {request.user.last_name}
+                    ''',
+            from_email=settings.EMAIL_HOST_USER,
+            to=[recipient_email],
+        )
+
+        # Ensure email body is treated as plain text
+        email.content_subtype = "plain"
+        # Attach resume if it exists
+        if resume:
+            resume_path = resume.path
+            with open(resume_path, 'rb') as file:
+                email.attach(resume.name, file.read(), 'application/pdf')
+
+        # Send email
+        email.send(fail_silently=True)
+
+        return redirect('job_detail', id=job.id)

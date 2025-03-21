@@ -129,10 +129,16 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 #e using a custom user model, tell Django to use it instead of the default auth.User
 AUTH_USER_MODEL = "app.CustomUser"
 
+LOGIN_URL='login_page'
+LOGIN_REDIRECT_URL='homepage'
+LOGOUT_URL='login_page'
 #email settings
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'  # Use your email provider's SMTP server
 EMAIL_PORT = 587  # Use 465 for SSL, or 587 for TLS
 EMAIL_USE_TLS = True  # Use TLS for security
-EMAIL_HOST_USER = 'sharadagadadhe111@gmail.com'  # Replace with your Gmail ID
-EMAIL_HOST_PASSWORD = 'xrpgnhncaljsefjf'  # Use an App Password, NOT your actual Gmail password
+EMAIL_HOST_USER = 'hr.job.platform@gmail.com'  # Replace with your Gmail ID
+EMAIL_HOST_PASSWORD = 'zgwwbsqcgqhtakdz'  # Use an App Password, NOT your actual Gmail password
+
+#email_host password
+#zgww bsqc gqht akdz

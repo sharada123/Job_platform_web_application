@@ -61,7 +61,7 @@ class Job(models.Model):
     vacancy_total=models.CharField( max_length=5,blank=True,null=True)
     skills=models.TextField(blank=True,null=True)
     required_education=models.CharField(max_length=255,null=True,blank=True,default="Not Specified")
-    logo=models.ImageField(upload_to='logo/', blank=True)
+    logo=models.ImageField(upload_to='logo/', blank=True,null=True)
     location = models.CharField(max_length=255, default="Not Specified")
     min_salary = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     max_salary = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
