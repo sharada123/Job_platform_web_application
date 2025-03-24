@@ -43,7 +43,7 @@
           <ul class="dropdown-menu me-5" aria-labelledby="dropdownMenuButton1">
             <li class="dropdown-item" title="{{user.first_name|capfirst}}&nbsp;{{user.last_name|capfirst}}">{{user.username|capfirst}}</li>
             <li> <a class="dropdown-item" href="{% url 'job_list' %}" title="View Jobs">View All Jobs</a></li>
-            <li> <a class="dropdown-item" title="Applied Jobs"  data-bs-toggle="modal" data-bs-target="#AppliedJobModal">Applied Jobs</a></li>
+            <li> <a class="dropdown-item" href="{% url 'all_applied_jobs' %}" title="Applied Jobs" >Applied Jobs</a></li>
             <li> <a class="dropdown-item" href="{% url 'logout' %}" title="Logout">Logout</a></li>
           </ul>
         </div>

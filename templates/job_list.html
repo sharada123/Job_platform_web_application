@@ -251,7 +251,7 @@
     <div class="col-md-7">
       {% for job in jobs %}
       <div class="card">
-        <div class="card-header">Posted Date: &nbsp;{{job.created_at}}</div>
+        <div class="card-header">Posted Date: &nbsp;{{job.created_at|date:"d M Y" }}</div>
         <div class="card-body">
           <div class="d-flex justify-content-arround mt-3">
             <div>
@@ -303,7 +303,7 @@
     {% else %} {% for job in jobs %}
     <div class="col-md-12 col-sm-4 mt-3">
       <div class="card">
-        <div class="card-header">Posted Date: &nbsp;{{job.created_at}}</div>
+        <div class="card-header">Posted Date: &nbsp;{{job.created_at|date:"d M Y" }}</div>
         <div class="card-body">
           <div class="d-flex justify-content-arround mt-3">
             <div>

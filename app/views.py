@@ -299,3 +299,7 @@ def apply(request, job_id):
         email.send(fail_silently=True)
 
         return redirect('job_detail', id=job.id)
+def all_applied_jobs(request):
+    applied_jobs = Application.objects.filter(user=request.user).select_related('job')
+    
+    return render(request, 'applied_jobs.html', {'applied_jobs': applied_jobs})

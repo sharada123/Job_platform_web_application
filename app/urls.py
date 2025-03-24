@@ -21,4 +21,5 @@ urlpatterns = [
     path('add_education',views.add_education, name="add_education"),
     path('add_certificate',views.add_certificate, name="add_certificate"),
     path('apply/<int:job_id>',views.apply,name='apply'),
+    path('all_applied_jobs',views.all_applied_jobs,name='all_applied_jobs'),
 ]
