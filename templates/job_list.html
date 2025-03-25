@@ -1,7 +1,10 @@
 {% extends 'base.html' %} {%load static %} {% block 'main' %}
+
+{% if user.is_authenticated %}
+
 <div class="container">
   <div class="row mt-4">
-    {% if user.is_authenticated %}
+    
     <div class="col-md-5 border d-flex flex-column align-items-center">
       {% if user.profile.profile_image %}
       <img
@@ -251,7 +254,7 @@
     <div class="col-md-7">
       {% for job in jobs %}
       <div class="card">
-        <div class="card-header">Posted Date: &nbsp;{{job.created_at|date:"d M Y" }}</div>
+        <div class="card-header">Posted Date: &nbsp;{{job.created_at|date:"d-M-Y" }}</div>
         <div class="card-body">
           <div class="d-flex justify-content-arround mt-3">
             <div>
@@ -351,7 +354,7 @@
     {% endfor %} {% endif %}
   </div>
 </div>
-
+<!--Modal section  starts-->
 <!-- skill  Modal -->
 <div
   class="modal fade"

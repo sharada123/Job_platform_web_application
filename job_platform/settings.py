@@ -130,7 +130,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = "app.CustomUser"
 
 LOGIN_URL='login_page'
-LOGIN_REDIRECT_URL='homepage'
+# LOGIN_REDIRECT_URL='homepage'
 LOGOUT_URL='login_page'
 #email settings
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

@@ -10,7 +10,7 @@ class CustomUser(AbstractUser):
         ('job_seeker', 'Job Seeker'),
         ('job_provider', 'Job Provider'),
     )
-    role = models.CharField(max_length=20, choices=ROLE_CHOICES,default="None")
+    role = models.CharField(max_length=20, choices=ROLE_CHOICES,default="job_seeker")
     mobile_number=models.CharField(max_length=10)
     def __str__(self):
         return self.username
@@ -51,7 +51,11 @@ class OTP(models.Model):
         expiration_time = self.created_at + timedelta(minutes=5)  # OTP is valid for 5 minutes
         return now() <= expiration_time and not self.is_used
 
+
+def get_default_user():
+    return CustomUser.objects.first().id  # Returns the ID of the first profile
 class Job(models.Model):
+    user = models.ForeignKey(CustomUser,on_delete=models.SET_NULL, null=True, blank=True, default=get_default_user)
     job_type_choices=(('Work From Home','Work From Home'),('Work From Office','Work From Office'),('Hybrid','Hybrid'),)
     employee_type_choices=(('Fresher','Fresher'),('Experienced','Experienced'),)
     title = models.CharField(max_length=255)

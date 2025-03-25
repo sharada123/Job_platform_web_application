@@ -13,6 +13,7 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- custom alert-->
     <title>Job Platform</title>
   </head>
   <body>
@@ -41,10 +42,17 @@
             <img src="{{ user.profile.profile_image.url }}" alt="Profile Pic" width="40" class="profile"/>
           </button>
           <ul class="dropdown-menu me-5" aria-labelledby="dropdownMenuButton1">
-            <li class="dropdown-item" title="{{user.first_name|capfirst}}&nbsp;{{user.last_name|capfirst}}">{{user.username|capfirst}}</li>
+           
+           {% if user.role == 'job_seeker' %}
+           <li class="dropdown-item" title="{{user.first_name|capfirst}}&nbsp;{{user.last_name|capfirst}}">{{user.username|capfirst}}</li>
             <li> <a class="dropdown-item" href="{% url 'job_list' %}" title="View Jobs">View All Jobs</a></li>
             <li> <a class="dropdown-item" href="{% url 'all_applied_jobs' %}" title="Applied Jobs" >Applied Jobs</a></li>
             <li> <a class="dropdown-item" href="{% url 'logout' %}" title="Logout">Logout</a></li>
+            {% else %}
+            <li class="dropdown-item" title="{{user.first_name|capfirst}}&nbsp;{{user.last_name|capfirst}}">{{user.username|capfirst}}</li>
+            <li><a class="dropdown-item"  data-bs-toggle="modal" data-bs-target="#JobModal">Post a job for FREE</a></li>
+            <li> <a class="dropdown-item" href="{% url 'logout' %}" title="Logout">Logout</a></li>
+            {% endif %}
           </ul>
         </div>
         {% else %}
@@ -90,5 +98,50 @@
        </div>
      </div>
    </div>
+
+   <!-- post job Modal -->
+
+<div
+class="modal fade"
+id="JobModal"
+tabindex="-1"
+aria-labelledby="JobModalLabel"
+aria-hidden="true"
+>
+<div class="modal-dialog">
+ <div class="modal-content">
+   <div class="modal-header">
+     <h5 class="modal-title" id="exampleModalLabel"> 
+       Post New Job Vacancy
+     </h5>
+     <button
+       type="button"
+       class="btn-close"
+       data-bs-dismiss="modal"
+       aria-label="Close"
+     ></button>
+   </div>
+   <div class="modal-body">
+    <form action="{% url 'create-job' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{job_form.as_p}}
+        <div class="d-flex justify-content-between mt-3"><button type="submit" class="btn btn-primary">
+            Add Vacancy
+          </button>
+          <button
+          type="button"
+          class="btn btn-secondary"
+          data-bs-dismiss="modal"
+        >
+          Close
+        </button>
+        
+      </div>
+     </form>
+   </div>
+  
+ </div>
+</div>
+</div>
   </body>
 </html>

@@ -14,18 +14,12 @@
   text-align: justify;
 }
 
+a{
+  cursor: pointer;
+}
 .applied_jobs_list li{
   list-style: none;
 }
 .applied_jobs_anchor{
   text-decoration: none;
 }
-  /* .hidden {
-    display: none;
-}
-.otp-section,.btn-section{
-    display: none;
-}
-.show {
-    display: block;
-} */

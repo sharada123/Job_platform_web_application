@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block 'main' %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="text-center text-info mt-3 mb-3 shadow">EMPLOYEER DASHBOARD</h1>
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">SR.No.</th>
+                    <th scope="col">Job Title</th>
+                    <th scope="col">Created at</th>
+                    <th scope="col">Vacancy</th>
+                    <th scope="col">Is Active</th>
+                    <th scope="col">Total Applications</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for job in jobs %}
+                  <tr>
+                    <th scope="row">{{forloop.counter}}</th>
+                    <td>{{job.title}}</td>
+                    <td>{{job.created_at|date:"d-M-Y"}}</td>
+                    <td>{{job.vacancy_total}}</td>
+                    <td>{{job.is_active}}</td>
+                    <td>
+                      
+                        <button id="view_total_applications" onclick="total_applications('{{ job.id }}')" class="btn btn-sm btn-info text-danger fw-bold">View</button>
+                        
+                        
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+             
+        </div> 
+    </div>
+</div>
+
+{% endblock 'main' %}

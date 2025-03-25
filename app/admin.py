@@ -22,7 +22,7 @@ class OTPAdmin(admin.ModelAdmin):  # Inherit Django's default UserAdmin
 
 class JobAdmin(admin.ModelAdmin):
     model=Job
-    list_display=('id','is_active','title','email_address','company','about_company','logo','job_description','vacancy_total','skills','required_education','location','min_salary','max_salary','job_type','office_time_from','office_time_to','employee_type')
+    list_display=('id','user','is_active','title','email_address','company','about_company','logo','job_description','vacancy_total','skills','required_education','location','min_salary','max_salary','job_type','office_time_from','office_time_to','employee_type')
     
 class ProfileAdmin(admin.ModelAdmin):
     class Meta:

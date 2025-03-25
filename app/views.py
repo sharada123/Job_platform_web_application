@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login,logout
 from django.contrib import messages
 from django.db.models import Q
@@ -43,6 +43,12 @@ def register(request):
     else:
         signup_form = RegisterForm()  # Initialize empty form for GET requests
         return render(request, 'user_register.html', {'signup_form': signup_form})
+@login_required
+def employeer_dashboard(request):
+    jform=JobForm()
+    jobs=Job.objects.filter(user=request.user)
+    total_applications = request.session.get('total_applications', 0)  # Default to 0 if not found
+    return render(request, 'job_provider_dashboard.html',{'job_form':jform,'jobs':jobs,'total_applications':total_applications})
 
 def login_page(request):
     login_form = LoginForm()
@@ -108,47 +114,45 @@ def verify_otp(request):
     if request.method == "POST":
         email = request.session.get('email')
         user = CustomUser.objects.filter(email=email).first()
-        education=Education.objects.filter(user=user)
-        certificate=Certification.objects.filter(user=user)
         if not user:
             return redirect('send_otp')
-        
-        # Check for the associated Profile object
-        try:
-            profile = Profile.objects.get(user=user)
-        except Profile.DoesNotExist:
-            return HttpResponse("Profile not found", status=404)
-    
+
+        education = Education.objects.filter(user=user)
+        certificate = Certification.objects.filter(user=user)
+        profile = Profile.objects.filter(user=user).first()  # Avoids crashing if profile is missing
         
         jobs = Job.objects.filter(is_active=True).order_by('-created_at')
-        
         otp_entered = request.POST.get('otp')
-        otp_record = OTP.objects.filter(user=user).last()
+        otp_record = OTP.objects.filter(user=user).order_by('-created_at').first()
 
         # Check if OTP is correct
         if otp_record and otp_record.otp == otp_entered and otp_record.is_valid():
             login(request, user)
-            print(education)
-            context = {'user': user, 'education':education,'certificate':certificate,'jobs': jobs, 'profile': profile}
-            # return render(request, 'job_list.html', context)
-            return redirect('job_list')
-        else:
-            return render(request, 'verify_otp.html', {'error': 'Invalid OTP'})
+            if user.role=='job_seeker':
+                return redirect('job_list')
+            elif user.role=='job_provider':
+                jform=JobForm()
+                return redirect('employeer_dashboard')
+            else:
+                return HttpResponse('No role specified')
+
+        return render(request, 'verify_otp.html', {'error': 'Invalid OTP'})
 
     return render(request, 'verify_otp.html')
 
-
+@login_required
 def create_job(request):
     print('inside create-job')
     if request.method == "POST":
         jform = JobForm(request.POST,request.FILES)
         if jform.is_valid():
             job = jform.save(commit=False)
+            job.user = request.user  # Associate the job with the current user
             job.save()
-            return redirect('job_list')
+            return redirect('employeer_dashboard')
     else:
         jform = JobForm()  # Initialize empty form for GET requests
-        return render(request, 'home.html', {'job_form': jform})
+        return redirect('employeer_dashboard')
        
 
 
@@ -303,3 +307,22 @@ def all_applied_jobs(request):
     applied_jobs = Application.objects.filter(user=request.user).select_related('job')
     
     return render(request, 'applied_jobs.html', {'applied_jobs': applied_jobs})
+
+
+def total_applications(request, job_id): 
+    print('Function total_applications called')
+
+    # Check if the request is AJAX
+    if request.headers.get('X-Requested-With') != 'XMLHttpRequest':
+        print("❌ Not an AJAX request")
+        return JsonResponse({'error': 'Invalid request'}, status=400)
+
+    # Get the job or return a 404 error if not found
+    job = get_object_or_404(Job, id=job_id)
+    
+    # Count applications for the job
+    total_applications = Application.objects.filter(job=job).count()
+    
+    print(f"✅ Total applications for job {job_id}: {total_applications}")
+    
+    return JsonResponse({'total_applications': total_applications})
