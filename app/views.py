@@ -12,6 +12,9 @@ from .forms import JobForm, RegisterForm, LoginForm, ProfileForm,UserForm,Educat
 from django.core.mail import EmailMessage
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
+import os
+import zipfile
+from django.core.files.storage import default_storage
 def homepage(request):
     jform=JobForm()
     return render(request, 'home.html',{'job_form':jform})
@@ -46,7 +49,7 @@ def register(request):
 @login_required
 def employeer_dashboard(request):
     jform=JobForm()
-    jobs=Job.objects.filter(user=request.user)
+    jobs=Job.objects.filter(user=request.user).order_by('-created_at')
     total_applications = request.session.get('total_applications', 0)  # Default to 0 if not found
     return render(request, 'job_provider_dashboard.html',{'job_form':jform,'jobs':jobs,'total_applications':total_applications})
 
@@ -309,20 +312,45 @@ def all_applied_jobs(request):
     return render(request, 'applied_jobs.html', {'applied_jobs': applied_jobs})
 
 
-def total_applications(request, job_id): 
+def delete_job(request, job_id):
+    delete_obj = get_object_or_404(Job, id=job_id)
+    delete_obj.delete()
+    messages.success(request, f"Job {delete_obj.title} deleted successfully!")
+    return redirect('employeer_dashboard')
+
+def view_all_applications(request,job_id):
     print('Function total_applications called')
-
-    # Check if the request is AJAX
-    if request.headers.get('X-Requested-With') != 'XMLHttpRequest':
-        print("❌ Not an AJAX request")
-        return JsonResponse({'error': 'Invalid request'}, status=400)
-
-    # Get the job or return a 404 error if not found
+    job=Job.objects.get(id=job_id)
+    print(job)
+    applications=Application.objects.filter(job=job)
+    print(applications.count())
+    print(applications[0].resume)
+    return render(request, 'view_all_applications.html', {'job': job,'applications': applications})
+    
+def download_resume(request, job_id):
     job = get_object_or_404(Job, id=job_id)
+    applications = Application.objects.filter(job=job)
+
+    if not applications.exists():
+        return HttpResponse("No resumes found for this job.", content_type="text/plain")
+
+    zip_filename = f"resumes_{job.title.replace(' ', '_')}.zip"
+    zip_path = os.path.join("media", zip_filename)
+
+    # Create ZIP file
+    with zipfile.ZipFile(zip_path, 'w') as zipf:
+        for application in applications:
+            if application.resume:
+                resume_path = application.resume.path
+                if os.path.exists(resume_path):
+                    zipf.write(resume_path, os.path.basename(resume_path))
+
+    # Serve the ZIP file
+    with open(zip_path, "rb") as zipf:
+        response = HttpResponse(zipf.read(), content_type="application/zip")
+        response["Content-Disposition"] = f'attachment; filename="{zip_filename}"'
     
-    # Count applications for the job
-    total_applications = Application.objects.filter(job=job).count()
-    
-    print(f"✅ Total applications for job {job_id}: {total_applications}")
-    
-    return JsonResponse({'total_applications': total_applications})
+    # Delete the ZIP file after serving 
+    os.remove(zip_path)
+
+    return response

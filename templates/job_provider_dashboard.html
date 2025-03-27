@@ -1,43 +1,60 @@
-{% extends 'base.html' %}
-{% load static %}
-
-{% block 'main' %}
+{% extends 'base.html' %} {% load static %} {% block 'main' %}
 <div class="container">
-    <div class="row">
-        <div class="col-md-12">
-            <h1 class="text-center text-info mt-3 mb-3 shadow">EMPLOYEER DASHBOARD</h1>
-            <table class="table">
-                <thead>
-                  <tr>
-                    <th scope="col">SR.No.</th>
-                    <th scope="col">Job Title</th>
-                    <th scope="col">Created at</th>
-                    <th scope="col">Vacancy</th>
-                    <th scope="col">Is Active</th>
-                    <th scope="col">Total Applications</th>
-                  </tr>
-                </thead>
-                <tbody>
-                    {% for job in jobs %}
-                  <tr>
-                    <th scope="row">{{forloop.counter}}</th>
-                    <td>{{job.title}}</td>
-                    <td>{{job.created_at|date:"d-M-Y"}}</td>
-                    <td>{{job.vacancy_total}}</td>
-                    <td>{{job.is_active}}</td>
-                    <td>
-                      
-                        <button id="view_total_applications" onclick="total_applications('{{ job.id }}')" class="btn btn-sm btn-info text-danger fw-bold">View</button>
-                        
-                        
-                    </td>
-                  </tr>
-                  {% endfor %}
-                </tbody>
-              </table>
-             
-        </div> 
+  <div class="row">
+    <div class="col-md-12">
+      <h1 class="text-center text-info mt-3 mb-3 shadow">
+        ------------EMPLOYEER DASHBOARD---------------
+      </h1>
+    
+{% if messages %}
+{% for message in messages %}
+<div class="alert alert-{{message.tags}} alert-dismissible fade show" role="alert" id="message-alert">
+  <strong>{{message}}</strong> 
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endfor %}
+{% endif %}
+      <table class="table table-info">
+        <thead>
+          <tr>
+            <th scope="col">SR.No.</th>
+            <th scope="col">Job Title</th>
+            <th scope="col">Created at</th>
+            <th scope="col">Vacancy</th>
+            <th scope="col">Action</th>
+            <th scope="col">Received Applications</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for job in jobs %}
+          <tr>
+            <th scope="row">{{forloop.counter}}</th>
+            <td>{{job.title|capfirst}}</td>
+            <td>{{job.created_at|date:"d-M-Y"}}</td>
+            <td>{{job.vacancy_total}}</td>
+            <td>
+              <a
+                href="{% url 'delete_job' job.id %}"
+                class="btn btn-sm fw-bold"
+                title="Delete Job Vacancy"
+                ><i class="fa-solid fa-trash" style="color: #c61306"></i>
+              </a>
+            </td>
+            <td>
+              <a
+                href="{% url 'download_resume' job.id %}"
+                class="btn btn-sm fw-bold"
+                title="Download Received Resumes"
+                ><i class="fa-solid fa-file-zipper" style="color: #c61306"></i
+                >&nbsp;<span class="text-danger">Download</span></a
+              >
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
     </div>
+  </div>
 </div>
 
 {% endblock 'main' %}

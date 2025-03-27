@@ -50,6 +50,7 @@
             <li> <a class="dropdown-item" href="{% url 'logout' %}" title="Logout">Logout</a></li>
             {% else %}
             <li class="dropdown-item" title="{{user.first_name|capfirst}}&nbsp;{{user.last_name|capfirst}}">{{user.username|capfirst}}</li>
+            <li> <a class="dropdown-item" href="{% url 'employeer_dashboard' %}" title="Dashboard">Dashboard</a></li>
             <li><a class="dropdown-item"  data-bs-toggle="modal" data-bs-target="#JobModal">Post a job for FREE</a></li>
             <li> <a class="dropdown-item" href="{% url 'logout' %}" title="Logout">Logout</a></li>
             {% endif %}

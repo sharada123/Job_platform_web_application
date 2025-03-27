@@ -23,5 +23,6 @@ urlpatterns = [
     path('apply/<int:job_id>',views.apply,name='apply'),
     path('all_applied_jobs',views.all_applied_jobs,name='all_applied_jobs'),
     path('employeer_dashboard',views.employeer_dashboard,name='employeer_dashboard'),
-    path('total_applications/<int:job_id>/',views.total_applications,name='total_applications'),
+    path('download_resume/<int:job_id>/',views.download_resume,name='download_resume'),
+    path('delete_job/<int:job_id>/',views.delete_job,name='delete_job'),
 ]
